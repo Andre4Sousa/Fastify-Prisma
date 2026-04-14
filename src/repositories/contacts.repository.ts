@@ -27,6 +27,14 @@ export class ContactRepositoryPrisma implements ContactRepository {
         return result || null;
     }
 
+     findAllContacts(userId: string): Promise<Contact[]> {
+        return prisma.contacts.findMany({
+            where: {
+                userId,
+            },
+        });
+    }
+
     async delete(id: string): Promise<void> {
         await prisma.users.delete({
           
@@ -36,4 +44,6 @@ export class ContactRepositoryPrisma implements ContactRepository {
         });
     // Implementações futuras de busca por ID, atualização e deleção podem ser adicionadas aqui.
     }
+
+   
 }

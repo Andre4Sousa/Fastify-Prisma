@@ -33,10 +33,7 @@ export class ContactUseCase {
             throw new Error('Contact with this email or phone already exists');
         }
 
-        // 3. Criar o contato usando o repositório de contatos
-        // Nota: No contactRepository o método está escrito como 'create'
-        // O método create do repositório é chamado para criar o contato no banco de dados ou em qualquer outra fonte de dados. O resultado é retornado como um objeto do tipo Contact, que representa o contato criado.
-        const result = await this.contactRepository.create({
+      const result = await this.contactRepository.create({
             name,
             email,
             phone,
@@ -45,4 +42,33 @@ export class ContactUseCase {
 
         return result;
     }
+
+    async listAllContacts(userEmail: string): Promise<Contact[]> {
+        // 1. Validar se o usuário (dono dos contatos) existe
+        const user = await this.userRepository.findbyEmail(userEmail);
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        // 2. Buscar os contatos associados ao usuário
+        const contacts = await this.contactRepository.findAllContacts(user.id);
+
+        return contacts;
+    }
+
+    // TODO: se não for possível atualizar o contato, deve retornar um erro indicando que a atualização falhou. Isso é importante para garantir que o cliente receba feedback adequado sobre o resultado da operação de atualização.
+    // Adicionalmente, a implementação do método updateContact deve incluir a lógica para verificar se o contato existe antes de tentar atualizá-lo. Se o contato não for encontrado, um erro deve ser lançado indicando que o contato não existe. Se o contato for encontrado, o método deve chamar o repositório de contatos para realizar a atualização e retornar o contato atualizado. 
+    async updateContact({ id, name, email, phone }: Contact): Promise<Contact> {
+        const data = {
+            id,
+            name,
+            email,
+            phone
+        };
+        return {} as Contact; // Retorna um objeto vazio apenas para satisfazer o tipo de retorno, a implementação real deve ser feita posteriormente.
+    }
+        
+
 }
+
