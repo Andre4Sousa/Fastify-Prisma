@@ -41,4 +41,16 @@ export async function userRoutes(fastify: FastifyInstance) {
     fastify.get('/', async (request, reply) => {
         return reply.send('Hello World!');
     });
+
+    fastify.delete('/:id', async (request, reply) => {
+        const { id } = request.params as { id: string };
+
+        try {
+            await userUseCase.delete(id);
+            return reply.status(204).send();
+        }
+        catch (error) {
+            return reply.send(error);
+        }
+    });
 }
