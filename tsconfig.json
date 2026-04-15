@@ -7,8 +7,12 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "es2023" , // suporte ao javascript
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023" , // suporte ao javascript
+    "strict": true,
+    "esModuleInterop": true,
+    //"ignoreDeprecations": "6.0",
     "types": ["node"],
     // For nodejs:
     // "lib": ["esnext"],
